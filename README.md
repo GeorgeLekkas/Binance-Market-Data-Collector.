@@ -13,9 +13,13 @@ Enables efficient analysis of the entire market or targeted subsets over a chose
 
 ⚙️ Requirements
 Python 3.8+
+
 Binance API (python-binance)
+
 Pandas
+
 SQLAlchemy
+
 MySQL with pymysql driver
 
 🚀 Usage
