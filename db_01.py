@@ -9,12 +9,11 @@ from sqlalchemy import create_engine ,text
 st=time.time()
 
 client = Client()
-engine = create_engine("mysql+pymysql://root:lekkas12345@localhost:3306/clp_5m", echo=True)
+engine = create_engine("mysql+pymysql://root:lek@localhost:3306/clp_5m", echo=True)
 
 # =======================================================================================================
-fores=3
-inte=5   # μη ξεχνας να βαλεις το σωστο στις εντολης ληψης δεδομενων
-
+fores=3    # 
+inte=5   # interval
 
 t0=timedelta(minutes=500*inte)
 t1=timedelta(minutes=501*inte)
@@ -32,8 +31,8 @@ for i in range(1,fores+1):
     l_start.append(l_start[i-1]+t1)
     l_end.append(l_end[i-1]+t1)
 
-ml_st=[date_to_milliseconds(xx) for xx in l_start]    # genika prpei na ginetai elegxow gia tis diafores
-ml_en=[date_to_milliseconds(xx) for xx in l_end]       # diafora =501 bhmata ,dld intervals
+ml_st=[date_to_milliseconds(xx) for xx in l_start]    
+ml_en=[date_to_milliseconds(xx) for xx in l_end]       # diafora =501 steps.
 
 # ---------------------------pairnv ta tiker pou mporv na tradarw----------------------------------
 exchange_info = client.get_exchange_info()
@@ -41,7 +40,7 @@ tickers = [s['symbol'] for s in exchange_info['symbols'] if s['status'] == 'TRAD
 
 # --------------------------------------------------------------------------------------------------
 
-tck = tickers.pop(0)  # Παίρνει και αφαιρεί το πρώτο στοιχείο
+tck = tickers.pop(0)  
 datet=[]
 prt=[]
 for i in range(0,fores+1):
@@ -93,7 +92,7 @@ if nu1 != 101:
 
 
 TT=(time.time()-st)/60
-print(f'kaname {TT} lepta gia na katebasoume ola ta stoixeia')
+print(f'Total time taken to download all data: {TT} minutes')
 st=time.time()
 conn = engine.connect()
 for nn in range(1,15):
@@ -103,8 +102,7 @@ for nn in range(1,15):
         """
         conn.execute(text(query))
     except:
-        print(f'o pinakas {nn} den exei index sthlh pou na enoxlei')
-
+       print(f'Table {nn} does not have an Index column to remove')
 
 
 # Ολόκληρο το query
@@ -144,6 +142,7 @@ conn.close()
 
 end=time.time()
 xronos=(st-end)/60
-print(f' kamame gia thn enwvsh  {xronos} lepta  ')
-print(f'kaname {TT} lepta gia na katebasoume ola ta stoixeia')
+print(f'Time taken for merging tables: {xronos} minutes')
+print(f'Total time taken to download all data: {TT} minutes')
+
 
